@@ -1,0 +1,50 @@
+<%- include ("../../partials/header.ejs") %>
+
+    <body>
+        <%- include ("../../partials/navbar.ejs") %>
+            <div class="container">
+                <h2>Categorias</h2>
+                <a href="/admin/categories/new" class="btn btn-success">
+                    Criar nova categoria
+                </a>
+                <br>
+                <br>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% categories.forEach(category=>{ %>
+                            <tr>
+                                <td>
+                                    <%= category.title %>
+                                </td>
+                                <td>
+                                    <a href="/admin/categories/edit/<%= category.id %>" class="btn btn-warning">Editar</a>
+                                    <form method="POST" action="/categories/delete" style="display: inline;"
+                                        onsubmit="confirmDeletion(event,this)">
+                                        <input type="hidden" name="id" value="<%= category.id %>">
+                                        <button class="btn btn-danger">Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+    </body>
+
+    <%- include ("../../partials/footer.ejs") %>
+        <script>
+            const confirmDeletion = (event, form) => {
+                event.preventDefault();
+                let decision = confirm("Deseja realmente excluir o registro selecionado?");
+                if (decision) {
+                    form.submit();
+                }
+            }
+        </script>
